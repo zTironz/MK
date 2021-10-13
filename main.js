@@ -1,1 +1,1 @@
-console.log('Mortal KOmbat')
+console.log('Mortal Kombat')
