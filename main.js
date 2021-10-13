@@ -12,7 +12,7 @@ const Scorpion= {
 
 const Subzero= {
     name: 'Sub-Zero',
-    hp: 50,
+    hp: 100,
     img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
     weapon: ['Sword'],
     attack: function() {
@@ -20,6 +20,7 @@ const Subzero= {
     }
 }
 
+const arenas = document.querySelector('.arenas');
 
 function createPlayer(player, myHero,) {
     const player1 = document.createElement('div');
@@ -40,7 +41,7 @@ function createPlayer(player, myHero,) {
 
     const life = document.createElement('div');
     life.classList.add('life');
-    life.style.width = `${myHero.hp}%`;
+    life.style.width = myHero.hp;
 
     progressbar.appendChild(life);
     progressbar.appendChild(name);
@@ -50,7 +51,7 @@ function createPlayer(player, myHero,) {
     character.appendChild(img);
     img.src = myHero.img;
     
-    const arenas = document.querySelector('.arenas');
+    
     arenas.appendChild(player1)
 }
 
