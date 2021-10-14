@@ -41,7 +41,7 @@ function createPlayer(player, myHero,) {
 
     const life = document.createElement('div');
     life.classList.add('life');
-    life.style.width = myHero.hp;
+    life.style.width = myHero.hp + "%";
 
     progressbar.appendChild(life);
     progressbar.appendChild(name);
@@ -50,7 +50,6 @@ function createPlayer(player, myHero,) {
     img.classList.add('img');
     character.appendChild(img);
     img.src = myHero.img;
-    
     
     arenas.appendChild(player1)
 }
