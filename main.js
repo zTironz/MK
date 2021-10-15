@@ -56,3 +56,5 @@ function createPlayer(player, myHero,) {
 
 createPlayer('player1', Scorpion);
 createPlayer('player2', Subzero);
+
+console.log('test')
