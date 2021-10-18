@@ -31,8 +31,7 @@ function createElement(tag, className) {
     if(className) {
         $tag.classList.add(className);
     }
-   
-
+    
     return $tag;
 }
 
@@ -59,7 +58,7 @@ function createPlayer(myHero) {
 
 function changeHp(player) {
     const plyaerLife = document.querySelector('.player' + player.player + ' .life');
-    player.hp -= Math.ceil(Math.random() * 20);
+    player.hp -= randomNumber();
     console.log(player.hp)
     plyaerLife.style.width = player.hp + '%';
 
@@ -75,13 +74,16 @@ function changeHp(player) {
     } 
 }
 
+function randomNumber() {
+    let number = Math.ceil(Math.random() * 20);
+    return number;
+}
+
 function winHero(name) {
-    const loseTitle = document.createElement('div');
-    loseTitle.classList.add('loseTitle');
+    const winTitle = createElement('div','winTitle');
+    winTitle.textContent = name + ' WINS';
 
-    loseTitle.textContent = name + ' WINS';
-
-    return loseTitle;
+    return winTitle;
 }
 
 
