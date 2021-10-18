@@ -58,30 +58,30 @@ function createPlayer(myHero) {
 
 function changeHp(player) {
     const plyaerLife = document.querySelector('.player' + player.player + ' .life');
-    player.hp -= randomNumber();
+    player.hp -= randomNumber(20);
     console.log(player.hp)
-    plyaerLife.style.width = player.hp + '%';
+   
 
     if(player.hp <= 0) {
-        randomButton.disabled = true
-        if(player1.hp > player2.hp) {
-            arenas.appendChild(winHero(player1.name));
-            plyaerLife.style.width = 0;
-        } else if(player1.hp < player2.hp) {
-            arenas.appendChild(winHero(player2.name));
-            plyaerLife.style.width = 0;
-        } 
-    } 
+        player.hp = 0;
+    }
+    plyaerLife.style.width = player.hp + '%'; 
 }
 
-function randomNumber() {
-    let number = Math.ceil(Math.random() * 20);
+function randomNumber(num) {
+    let number = Math.ceil(Math.random() * num);
     return number;
 }
 
 function winHero(name) {
     const winTitle = createElement('div','winTitle');
-    winTitle.textContent = name + ' WINS';
+    if(name)
+    {
+        winTitle.textContent = name + ' WINS';
+    }
+    else {
+        winTitle.textContent = 'DRAW!';
+    }
 
     return winTitle;
 }
@@ -90,6 +90,18 @@ function winHero(name) {
 randomButton.addEventListener('click', function() {
     changeHp(player1)
     changeHp(player2)
+
+    if( player1.hp === 0 || player2.hp === 0 ) {
+        randomButton.disabled = true;
+    }
+
+    if(player1.hp === 0 && player1.hp < player2.hp) {
+        arenas.appendChild(winHero(player2.name));
+    } else if(player2.hp === 0 && player2.hp < player1.hp) {
+        arenas.appendChild(winHero(player1.name));
+    } else if ( player1.hp === 0 && player2.hp ===0 ){
+        arenas.appendChild(winHero());
+    }
 })
 
 arenas.appendChild(createPlayer(player1));
