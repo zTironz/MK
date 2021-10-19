@@ -11,7 +11,10 @@ const player1= {
     weapon: ['Sword'],
     attack: function() {
         this.name + 'Fight...'
-    }
+    },
+    changeHp: changeHp,
+    renderHP: renderHP,
+    elHP: elHP
 }
 
 const player2= {
@@ -22,7 +25,10 @@ const player2= {
     weapon: ['Sword'],
     attack: function() {
         this.name + 'Fight...'
-    }
+    },
+    changeHp: changeHp,
+    renderHP: renderHP,
+    elHP: elHP
 }
 
 function createElement(tag, className) {
@@ -55,23 +61,40 @@ function createPlayer(myHero) {
     
     return $player
 }
-
-function changeHp(player) {
-    const plyaerLife = document.querySelector('.player' + player.player + ' .life');
-    player.hp -= randomNumber(20);
-    console.log(player.hp)
-   
-
-    if(player.hp <= 0) {
-        player.hp = 0;
-    }
-    plyaerLife.style.width = player.hp + '%'; 
-}
-
 function randomNumber(num) {
     let number = Math.ceil(Math.random() * num);
+    console.log(number)
     return number;
 }
+
+function changeHp(num) {
+    this.hp -= num;
+    if (this.hp <= 0) {
+        this.hp = 0;
+    }
+    // const plyaerLife = document.querySelector('.player' + player.player + ' .life');
+    // player.hp -= randomNumber(20);
+    // console.log(player.hp)
+   
+
+    // if(player.hp <= 0) {
+    //     player.hp = 0;
+    // }
+    // plyaerLife.style.width = player.hp + '%'; 
+}
+
+function elHP() {
+    const plyaerLife = document.querySelector('.player' + this.player + ' .life');
+    console.log(this)
+    return plyaerLife;
+}
+
+function renderHP() {
+    let hpRender = this.elHP()
+    hpRender.style.width = this.hp + '%'
+}
+
+
 
 function winHero(name) {
     const winTitle = createElement('div','winTitle');
@@ -86,10 +109,28 @@ function winHero(name) {
     return winTitle;
 }
 
+function createReloadButton() {
+    let reloadWrap =  createElement('div', 'reloadWrap');
+    let reloadButton = createElement('button', 'button');
+    reloadButton.textContent = 'RELOAD';
+    arenas.appendChild(reloadWrap);
+    reloadWrap.appendChild(reloadButton);
+    reloadButton.addEventListener('click', function() {
+        window.location.reload();
+    })
+
+}
+
 
 randomButton.addEventListener('click', function() {
-    changeHp(player1)
-    changeHp(player2)
+    // changeHp(player1)
+    // changeHp(player2)
+    console.log(player1.hp)
+    player1.changeHp(randomNumber(20))
+    console.log(player1.hp)
+    player1.renderHP()
+    player2.changeHp(randomNumber(20))
+    player2.renderHP()
 
     if( player1.hp === 0 || player2.hp === 0 ) {
         randomButton.disabled = true;
@@ -97,10 +138,13 @@ randomButton.addEventListener('click', function() {
 
     if(player1.hp === 0 && player1.hp < player2.hp) {
         arenas.appendChild(winHero(player2.name));
+        createReloadButton()
     } else if(player2.hp === 0 && player2.hp < player1.hp) {
         arenas.appendChild(winHero(player1.name));
+        createReloadButton()
     } else if ( player1.hp === 0 && player2.hp ===0 ){
         arenas.appendChild(winHero());
+        createReloadButton()
     }
 })
 
