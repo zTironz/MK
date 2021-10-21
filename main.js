@@ -61,8 +61,8 @@ function createPlayer(myHero) {
     life.style.width = myHero.hp + "%";
     img.src = myHero.img;
 
-    $player.appendChild(progressbar)
-    $player.appendChild(character)
+    $player.appendChild(progressbar);
+    $player.appendChild(character);
     progressbar.appendChild(life);
     progressbar.appendChild(name);
     character.appendChild(img);
@@ -71,7 +71,7 @@ function createPlayer(myHero) {
 }
 function randomNumber(num) {
     let number = Math.ceil(Math.random() * num);
-    console.log(number)
+    console.log(number);
     return number;
 }
 
@@ -84,13 +84,13 @@ function changeHp(num) {
 
 function elHP() {
     const plyaerLife = document.querySelector('.player' + this.player + ' .life');
-    console.log(this)
+    console.log(this);
     return plyaerLife;
 }
 
 function renderHP() {
-    let hpRender = this.elHP()
-    hpRender.style.width = this.hp + '%'
+    let hpRender = this.elHP();
+    hpRender.style.width = this.hp + '%';
 }
 
 
@@ -164,8 +164,8 @@ function enemyAttack() {
 
 formFight.addEventListener('submit', function(e) {
     e.preventDefault();
-    console.dir(formFight)
-    const enemy = enemyAttack()
+    console.dir(formFight);
+    const enemy = enemyAttack();
     const attack = {};
 
     for(let item of formFight) {
@@ -178,8 +178,8 @@ formFight.addEventListener('submit', function(e) {
         }
         item.checked = false;
     }
-    console.log(attack, 'atack')
-    console.log(enemy, 'enemy')
+    console.log(attack, 'atack');
+    console.log(enemy, 'enemy');
 
 
     if(attack.hit != enemy.defence) {
@@ -191,15 +191,13 @@ formFight.addEventListener('submit', function(e) {
         player1.changeHp(enemy.value);
         player1.renderHP();
     }
-
     // player1.changeHp(enemy.value)
     // player1.renderHP()
     // player2.changeHp(attack.value)
     // player2.renderHP()
-
     if( player1.hp === 0 || player2.hp === 0 ) {
         randomButton.disabled = true;
-        createReloadButton()
+        createReloadButton();
     }
 
     if(player1.hp === 0 && player1.hp < player2.hp) {
@@ -210,6 +208,5 @@ formFight.addEventListener('submit', function(e) {
        
     } else if ( player1.hp === 0 && player2.hp ===0 ){
         arenas.appendChild(winHero());
-        
     }
 })
