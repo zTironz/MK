@@ -1,6 +1,7 @@
 import {logs} from './logs.js';
 import { player1, player2 } from './players.js';
-import { formFight } from './main.js'
+// import { formFight } from './main.js'
+const formFight= document.querySelector('.control');
 const date = new Date();
 const chat = document.querySelector('.chat');
 const HIT = {
