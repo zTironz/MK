@@ -1,5 +1,5 @@
 import {logs} from './logs.js';
-import { player1, player2 } from './players.js';
+import { player1, player2 } from './game.js';
 // import { formFight } from './main.js'
 const formFight= document.querySelector('.control');
 const date = new Date();
@@ -26,9 +26,9 @@ export let createElement = (tag, className) => {
 }
 
 
-let randomNumber = (num) =>  {
+export let randomNumber = (num) =>  {
     let number = Math.ceil(Math.random() * num);
-    console.log(number);
+    // console.log(number);
     return number;
 }
 

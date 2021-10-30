@@ -5,8 +5,6 @@ import Game from './game.js';
 // import { arenas,createElement,enemyAttack,playerAttack,showResult,generateLogs } from './functions.js'
 // export const formFight= document.querySelector('.control');
 
-
-
 // function createPlayer(myHero) {
 //     const $player = createElement('div','player' + myHero.player);
 //     const progressbar = createElement('div','progressbar');
