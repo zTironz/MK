@@ -1,4 +1,4 @@
-import { arenas,createElement,enemyAttack,playerAttack,showResult,generateLogs,randomNumber } from './functions.js';
+import { arenas,createElement,enemyAttack,playerAttack,showResult,generateLogs,randomNumber,getEnemyAttack } from './functions.js';
 // import { player1, player2 } from './players.js';
 import { Player } from './players.js'
 
@@ -61,18 +61,18 @@ export default class Game{
         return $player
     }
 
-    getEnemyAttack = async ({hit,defence} = playerAttack) => {
-        const body = fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
-    method: 'POST',
-    body: JSON.stringify({
-        hit,
-        defence,
-    })
-});
-let result = await body.json();
-console.log(result);
-return result
-    }
+//     getEnemyAttack = async (hit,defence) => {
+//         return  fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
+//     method: 'POST',
+//     body: JSON.stringify({
+//         hit,
+//         defence,
+//     })
+// }).then(res => res.json().catch(err => console.log(err)));
+// // let result = await body.json();
+// // console.log(result);
+// // return result
+//     }
 
     fight = async () => {
         
@@ -103,12 +103,16 @@ return result
 
     }
 
+    // test() {
+    //      console.log('lol')
+    // }
+
 
     start = async () => {
-        
+
         const players = await this.getplayer();
         const enemy = await this.getEnemy();
-        // console.log(players);
+     
         const p1 = players[randomNumber(players.length)-1];
         const p2 = enemy;
         console.log(p1,p2);
@@ -125,20 +129,23 @@ return result
         this.createPlayer(player1);
         this.createPlayer(player2);
 
-        
+        // let kek = this.test()
         generateLogs('start',player1,player2);
         arenas.appendChild(this.createPlayer(player1));
         arenas.appendChild(this.createPlayer(player2));
 
-        
+        // let lol = async () => await this.getEnemyAttack();
         formFight.addEventListener('submit', function(e) {
             e.preventDefault();
-            
             // console.dir(formFight);
             const {hit: hitEnemy, defence: defenceEnemy, value: valueEnemy} = enemyAttack();
             const {hit, defence, value} = playerAttack();
             
-            
+            let kek = async () =>  console.log(await getEnemyAttack(hit,defence));
+            kek(hit,defence)
+            // () => lol(hit, defence);
+            // console.log(lol(hit, defence))
+            console.log(hit,defence)
             // console.log(player, 'atack');
             // console.log(enemy, 'enemy');
         
@@ -163,7 +170,7 @@ return result
             
             showResult()
             
-            // this.fight()
+            // console.log(this.getEnemyAttack(hit,defence))
         })
     }
 

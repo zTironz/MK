@@ -69,7 +69,7 @@ export let  enemyAttack = () => {
 
 }
 
-export let playerAttack = () => {
+export function playerAttack  ()  {
     const attack = {};
 
     for(let item of formFight) {
@@ -82,6 +82,7 @@ export let playerAttack = () => {
         }
         item.checked = false;
     }
+    console.log(attack)
     return attack;
 }
 
@@ -138,4 +139,17 @@ export function generateLogs(type, player1, player2, value) {
     }
 
     chat.insertAdjacentHTML('afterbegin', el);
+}
+
+export async function getEnemyAttack(hit,defence)  {
+    return  fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
+method: 'POST',
+body: JSON.stringify({
+    hit,
+    defence,
+})
+}).then(res => res.json().catch(err => console.log(err)));
+// let result = await body.json();
+// console.log(result);
+// return result
 }
