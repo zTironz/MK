@@ -1,13 +1,43 @@
-import { arenas,createElement,enemyAttack,playerAttack,showResult,generateLogs } from './functions.js';
-import { player1, player2 } from './players.js';
+import { arenas,createElement,enemyAttack,playerAttack,showResult,generateLogs,randomNumber,getEnemyAttack } from './functions.js';
+// import { player1, player2 } from './players.js';
+import { Player } from './players.js'
 
 export const formFight= document.querySelector('.control');
 
+export let player1;
+export let player2;
 
 
 export default class Game{
-    constuctor() {
- 
+    getplayer = async () => {
+        const body = await fetch('https://reactmarathon-api.herokuapp.com/api/mk/players').then(res => res.json());
+        return body;
+    }
+
+    getEnemy = async () => {
+        const body = await fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/choose').then(res => res.json());
+        return body;
+    } 
+
+    showResult = () => {
+        if( player1.hp === 0 || player2.hp === 0 ) {
+            randomButton.disabled = true;
+            createReloadButton();
+        }
+    
+        if(player1.hp === 0 && player1.hp < player2.hp) {
+            arenas.appendChild(winHero(player2.name));
+            generateLogs('end',player2.name,player1.name)
+            
+        } else if(player2.hp === 0 && player2.hp < player1.hp) {
+            arenas.appendChild(winHero(player1.name));
+            generateLogs('end',player1.name,player2.name)
+           
+        } else if ( player1.hp === 0 && player2.hp === 0 ){
+            arenas.appendChild(winHero());
+            generateLogs('draw')
+            
+        }
     }
 
     createPlayer(myHero) {
@@ -31,42 +61,116 @@ export default class Game{
         return $player
     }
 
-    
+//     getEnemyAttack = async (hit,defence) => {
+//         return  fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
+//     method: 'POST',
+//     body: JSON.stringify({
+//         hit,
+//         defence,
+//     })
+// }).then(res => res.json().catch(err => console.log(err)));
+// // let result = await body.json();
+// // console.log(result);
+// // return result
+//     }
 
-    start() {
+    fight = async () => {
+        
+        const {hit: hitEnemy, defence: defenceEnemy, value: valueEnemy} = await this.getEnemyAttack();
+        const {hit, defence, value} = await this.getEnemyAttack();
+
+
+        if(defence !== hitEnemy) {
+            player1.changeHp(valueEnemy);
+            player1.renderHP();
+            generateLogs('hit', player2, player1, valueEnemy)
+            //generateLogs('defence', player1, player2)
+        }
+        if(defenceEnemy !== hit) {
+            player2.changeHp(value);
+            player2.renderHP();
+            generateLogs('hit', player1, player2, value)
+            //generateLogs('defence', player1, player2)
+        }
+        if(defence === hitEnemy) {
+            generateLogs('defence', player2, player1)
+        }
+        if(defenceEnemy === hit) {
+            generateLogs('defence', player1, player2)
+        }
+        
+        showResult()
+
+    }
+
+    // test() {
+    //      console.log('lol')
+    // }
+
+
+    start = async () => {
+
+        const players = await this.getplayer();
+        const enemy = await this.getEnemy();
+     
+        const p1 = players[randomNumber(players.length)-1];
+        const p2 = enemy;
+        console.log(p1,p2);
+        player1 = new Player({
+            ...p1,
+            player: 1,
+            rootSelector: 'arenas',
+        });
+        player2 = new Player({
+            ...p2,
+            player: 2,
+            rootSelector: 'arenas',
+        });
+        this.createPlayer(player1);
+        this.createPlayer(player2);
+
+        // let kek = this.test()
         generateLogs('start',player1,player2);
         arenas.appendChild(this.createPlayer(player1));
         arenas.appendChild(this.createPlayer(player2));
+
+        // let lol = async () => await this.getEnemyAttack();
         formFight.addEventListener('submit', function(e) {
             e.preventDefault();
-            console.dir(formFight);
-            const enemy = enemyAttack();
-            const player = playerAttack();
+            // console.dir(formFight);
+            const {hit: hitEnemy, defence: defenceEnemy, value: valueEnemy} = enemyAttack();
+            const {hit, defence, value} = playerAttack();
             
-            console.log(player, 'atack');
-            console.log(enemy, 'enemy');
+            let kek = async () =>  console.log(await getEnemyAttack(hit,defence));
+            kek(hit,defence)
+            // () => lol(hit, defence);
+            // console.log(lol(hit, defence))
+            console.log(hit,defence)
+            // console.log(player, 'atack');
+            // console.log(enemy, 'enemy');
         
-            if(player.defence !== enemy.hit) {
-                player1.changeHp(enemy.value);
+            if(defence !== hitEnemy) {
+                player1.changeHp(valueEnemy);
                 player1.renderHP();
-                generateLogs('hit', player2, player1, enemy.value)
+                generateLogs('hit', player2, player1, valueEnemy)
                 //generateLogs('defence', player1, player2)
             }
-            if(enemy.defence !== player.hit) {
-                player2.changeHp(player.value);
+            if(defenceEnemy !== hit) {
+                player2.changeHp(value);
                 player2.renderHP();
-                generateLogs('hit', player1, player2, player.value)
+                generateLogs('hit', player1, player2, value)
                 //generateLogs('defence', player1, player2)
             }
-            if(player.defence === enemy.hit) {
+            if(defence === hitEnemy) {
                 generateLogs('defence', player2, player1)
             }
-            if(enemy.defence === player.hit) {
+            if(defenceEnemy === hit) {
                 generateLogs('defence', player1, player2)
             }
-        
+            
             showResult()
             
+            // console.log(this.getEnemyAttack(hit,defence))
         })
     }
 

@@ -47,7 +47,7 @@
 // }
 
 
-class Player {
+export class Player {
     constructor(props) {
         this.player = props.player;
         this.name = props.name;
@@ -56,7 +56,7 @@ class Player {
     }
     elHP() {
         const plyaerLife = document.querySelector('.player' + this.player + ' .life');
-        console.log(this);
+        // console.log(this);
         return plyaerLife;
     }
     renderHP() {
