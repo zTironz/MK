@@ -9,15 +9,15 @@ export let player2;
 
 
 export default class Game{
-    getplayer = async () => {
-        const body = await fetch('https://reactmarathon-api.herokuapp.com/api/mk/players').then(res => res.json());
-        return body;
-    }
+    // getplayer = async () => {
+    //     const body = await fetch('https://reactmarathon-api.herokuapp.com/api/mk/players').then(res => res.json());
+    //     return body;
+    // }
 
-    getEnemy = async () => {
-        const body = await fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/choose').then(res => res.json());
-        return body;
-    } 
+    // getEnemy = async () => {
+    //     const body = await fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/choose').then(res => res.json());
+    //     return body;
+    // } 
 
     showResult = () => {
         if( player1.hp === 0 || player2.hp === 0 ) {
@@ -76,8 +76,8 @@ export default class Game{
 
     fight = async () => {
         
-        const {hit: hitEnemy, defence: defenceEnemy, value: valueEnemy} = await this.getEnemyAttack();
-        const {hit, defence, value} = await this.getEnemyAttack();
+        // const {hit: hitEnemy, defence: defenceEnemy, value: valueEnemy} = await this.getEnemyAttack();
+        // const {hit, defence, value} = await this.getEnemyAttack();
 
 
         if(defence !== hitEnemy) {
@@ -110,10 +110,10 @@ export default class Game{
 
     start = async () => {
 
-        const players = await this.getplayer();
-        const enemy = await this.getEnemy();
+        const players = {name:'Scorpion', hp: 100, img:'./assets/scorpion.gif'};
+        const enemy = {name:'Kitana', hp: 100, img:'./assets/kitana.gif'};
      
-        const p1 = players[randomNumber(players.length)-1];
+        const p1 = players;
         const p2 = enemy;
         console.log(p1,p2);
         player1 = new Player({
@@ -141,8 +141,8 @@ export default class Game{
             const {hit: hitEnemy, defence: defenceEnemy, value: valueEnemy} = enemyAttack();
             const {hit, defence, value} = playerAttack();
             
-            let kek = async () =>  console.log(await getEnemyAttack(hit,defence));
-            kek(hit,defence)
+            // let kek = async () =>  console.log(await getEnemyAttack(hit,defence));
+            // kek(hit,defence)
             // () => lol(hit, defence);
             // console.log(lol(hit, defence))
             console.log(hit,defence)
